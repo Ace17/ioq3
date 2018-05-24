@@ -116,7 +116,7 @@ static worldSector_t *SV_CreateworldSector( int depth, vec3_t mins, vec3_t maxs 
 		anode->children[0] = anode->children[1] = NULL;
 		return anode;
 	}
-	
+
 	VectorSubtract (maxs, mins, size);
 	if (size[0] > size[1]) {
 		anode->axis = 0;
@@ -125,13 +125,13 @@ static worldSector_t *SV_CreateworldSector( int depth, vec3_t mins, vec3_t maxs 
 	}
 
 	anode->dist = 0.5 * (maxs[anode->axis] + mins[anode->axis]);
-	VectorCopy (mins, mins1);	
-	VectorCopy (mins, mins2);	
-	VectorCopy (maxs, maxs1);	
-	VectorCopy (maxs, maxs2);	
-	
+	VectorCopy (mins, mins1);
+	VectorCopy (mins, mins2);
+	VectorCopy (maxs, maxs1);
+	VectorCopy (maxs, maxs2);
+
 	maxs1[anode->axis] = mins2[anode->axis] = anode->dist;
-	
+
 	anode->children[0] = SV_CreateworldSector (depth+1, mins2, maxs2);
 	anode->children[1] = SV_CreateworldSector (depth+1, mins1, maxs1);
 
@@ -265,7 +265,7 @@ void SV_LinkEntity( sharedEntity_t *gEnt ) {
 		}
 	} else {
 		// normal
-		VectorAdd (origin, gEnt->r.mins, gEnt->r.absmin);	
+		VectorAdd (origin, gEnt->r.mins, gEnt->r.absmin);
 		VectorAdd (origin, gEnt->r.maxs, gEnt->r.absmax);
 	}
 
@@ -330,8 +330,6 @@ void SV_LinkEntity( sharedEntity_t *gEnt ) {
 		ent->lastCluster = CM_LeafCluster( lastLeaf );
 	}
 
-	gEnt->r.linkcount++;
-
 	// find the first world sector node that the ent's box crosses
 	node = sv_worldSectors;
 	while (1)
@@ -345,7 +343,7 @@ void SV_LinkEntity( sharedEntity_t *gEnt ) {
 		else
 			break;		// crosses the node
 	}
-	
+
 	// link it in
 	ent->worldSector = node;
 	ent->nextEntityInWorldSector = node->entities;
@@ -404,7 +402,7 @@ static void SV_AreaEntities_r( worldSector_t *node, areaParms_t *ap ) {
 		ap->list[ap->count] = check - sv.svEntities;
 		ap->count++;
 	}
-	
+
 	if (node->axis == -1) {
 		return;		// terminal node
 	}
